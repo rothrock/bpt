@@ -8,14 +8,14 @@ This is an effort to create an example B+Tree library in go.
 * Interesting intellectual exercise
 * Opportunity to think about design choices
 * Good way to learn about how btrees work
-** B+Trees and their associated methods are fundamental to databases and filesystems.
-** SQL Databases need proper indexes (btrees). Go [here](http://use-the-index-luke.com/)
+  * B+Trees and their associated methods are fundamental to databases and filesystems.
+  * SQL Databases need proper indexes (btrees). Go [here](http://use-the-index-luke.com/)
 * Very good way to practice writing Go code
 * Opportunity to learn how to do the tricky things the Go way
-** Granular locking
-** Smart disk IO
-** Concurrency
-** Message passing
+  * Granular locking
+  * Smart disk IO
+  * Concurrency
+  * Message passing
 * Practice rewriting big chunks of code. Good code is always the product of iteration.
 * Maybe create something that someone finds useful
 
@@ -26,8 +26,8 @@ It's fairly primitive. I read and studied algorithms and then made a stab at imp
 * Choose public-facing and private methods
 * Use recursion (it's a tree, after all)
 * Get something working.
-** It doesn't have to be pretty to start with.
-** It is just code. You can change it.
+  * Doesn't have to be pretty to start with.
+  * It is just code. You can change it.
 
 # To Do List
 1. Get Find working (done)
