@@ -27,14 +27,21 @@ type Node struct {
 	next      *Node
 }
 
-func (n *Node) Init(r Record) {
-	n.whatAmI = "rootleaf"
-	n.records = append(n.records, r)
+type Tree struct {
+	root *Node
+}
+
+func NewBPT() *Tree {
+	newRoot := new(Node)
+	newRoot.whatAmI = "rootleaf"
+	newTree := Tree{root: newRoot}
+	return &newTree
 }
 
 // Searches the tree n for the record associated with the given key.
-func Find(n *Node, key string) (Record, bool, error) {
+func (t *Tree) Find(key string) (Record, bool, error) {
 
+	n := t.root
 	leaf, _, idx, found, err := findLeaf(n, n, key)
 	if err != nil {
 		return Record{key: "", value: ""}, false, err
@@ -48,14 +55,15 @@ func Find(n *Node, key string) (Record, bool, error) {
 // Inserts a record on the leaf of a tree
 // rooted at n. If the root splits, the returned
 // node will be the root of the new tree.
-func Insert(n *Node, r Record) (*Node, error) {
+func (t *Tree) Insert(r Record) error {
 
+	n := t.root
 	leaf, parent, _, found, err := findLeaf(n, n, r.key)
 	if err != nil {
-		return n, err
+		return err
 	}
 	if found {
-		return n, fmt.Errorf("Key collision")
+		return fmt.Errorf("Key collision")
 	}
 
 	// Add the record
@@ -70,9 +78,9 @@ func Insert(n *Node, r Record) (*Node, error) {
 		copy(right.records, leaf.records[3:])
 		leaf.records = leaf.records[:3]
 		leaf.next = right
-		return insertNode(n, parent, right.records[0].key, right)
+		t.root, err = insertNode(n, parent, right.records[0].key, right)
 	}
-	return n, nil
+	return nil
 }
 
 // Inserts the key and associated node pointer on the target.
@@ -220,9 +228,8 @@ func findParent(root *Node, target *Node) (*Node, error) {
 
 // Finds the relevant leaf node for the given key.
 // Returns the leaf node, its parent, the key index,
-// true or false if the key was actually found,
-// and possible errors.
-// This is used to test where a record should end up
+// true or false if the key was actually found, and possible errors.
+// This function is used to test where a record should end up
 // or to actually find the record associated with the given key.
 func findLeaf(n *Node, parent *Node, key string) (*Node, *Node, int, bool, error) {
 

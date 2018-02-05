@@ -17,8 +17,7 @@ func TestInsertAndRead(t *testing.T) {
 	defer file.Close()
 
 	r := csv.NewReader(bufio.NewReader(file))
-	tree := new(Node)
-	tree.Init(Record{"Joan", "Jett"})
+	tree := NewBPT()
 	for {
 
 		kv, err := r.Read()
@@ -29,11 +28,11 @@ func TestInsertAndRead(t *testing.T) {
 			log.Fatal(err)
 		}
 		record := Record{key: kv[0], value: kv[1]}
-		tree, err = Insert(tree, record)
+		err = tree.Insert(record)
 		if err != nil {
 			t.Fatal(err)
 		}
-		result, ok, err := Find(tree, record.key)
+		result, ok, err := tree.Find(record.key)
 		if err != nil {
 			t.Fatal("Call to Find() returned an error", err)
 		}
